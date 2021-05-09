@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "2956b9fc-e20b-47aa-87e7-b0cd42257de7",
+		"name": "reutilizacao-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "/auth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\",\n    \"grantType\": \"password\",\n    \"clientId\": \"master-realm\",\n    \"clientSecret\": \"02a81ca7-2433-4c30-ae7c-2e9ea3030543\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/users/2c033a18-c49f-4f83-9cfe-76b03f9e98cb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"users",
+								"2c033a18-c49f-4f83-9cfe-76b03f9e98cb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/users/2c033a18-c49f-4f83-9cfe-76b03f9e98cb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"users",
+								"2c033a18-c49f-4f83-9cfe-76b03f9e98cb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailVerified\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/users/2c033a18-c49f-4f83-9cfe-76b03f9e98cb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"users",
+								"2c033a18-c49f-4f83-9cfe-76b03f9e98cb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario2\",\n    \"enabled\": false,\n    \"emailVerified\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "remote",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "/{realm}/users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{realms_url}}/master/users",
+									"host": [
+										"{{realms_url}}"
+									],
+									"path": [
+										"master",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{access_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "}/auth/realms/master/protocol/openid-connect/token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/realms/master/protocol/openid-connect/token",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"realms",
+								"master",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						},
+						"description": "Adiciona um usuário a um realm"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
