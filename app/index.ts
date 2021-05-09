@@ -27,8 +27,8 @@ export class App {
 
   private async configKeycloakClient() {
     App.kcAdminClient.setConfig({
-      realmName: "master",
-      baseUrl: "http://3.15.140.59:8080/auth",
+      realmName: process.env.REALM_NAME,
+      baseUrl: process.env.BASE_URL,
     });
   }
 
