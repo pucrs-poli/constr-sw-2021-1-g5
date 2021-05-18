@@ -1,0 +1,387 @@
+swagger: "2.0"
+info:
+  description: Esta API tem como objetivo fornecer meios para criar, acessar e modificar registros referentes às edições de uma disciplina.
+  version: 1.0.0
+  title: Documentação API Edições de disciplinas
+host: virtserver.swaggerhub.com
+basePath: /munaretto/construcao_sw/1.0.0
+schemes:
+- https
+security:
+- accessCode:
+  - read
+  - write
+paths:
+  /editions:
+    get:
+      summary: Retorna todas as edições de disciplinas cadastradas
+      description: Retorna todas as edições de disciplinas cadastradas
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/get-editions-response'
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+    post:
+      summary: Cria uma nova edição para uma disciplina
+      description: Cria uma nova edição para uma disciplina
+      parameters:
+      - name: payload
+        in: body
+        description: "Objeto contendo os dados a serem enviados ao endpoint. A passagem da propriedade *studentIds* é **opcional**."
+        required: true
+        schema:
+          $ref: '#/definitions/post-editions-payload'
+      
+      responses:
+        "201":
+          description: A nova edição da disciplina foi criada com sucesso
+          schema:
+            $ref: '#/definitions/post-editions-response'
+        "400":
+          description: Payload incorreto. Verifique o formato do JSON enviado na requisição e tente novamente.
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+  
+  /editions/{id}:
+    get:
+      summary: Retorna os dados de uma edição
+      description: Retorna os dados de uma edição com base no seu identificador
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico da edição
+        required: true
+        type: integer
+      - name: active
+        in: query
+        type: boolean
+        description: Se a edição está ativa ou não
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Edition'
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+          
+    patch:
+      summary: Adiciona um ou mais subscribers em uma edição de disciplina
+      description: Adiciona um ou mais subscribers em uma edição de disciplina
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico da edição
+        required: true
+        type: integer
+      
+      - name: payload
+        in: body
+        description: Objeto contendo uma lista de estudantes
+        required: true
+        schema:
+          $ref: '#/definitions/patch-subscriber-id-payload'
+          
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Payload incorreto. Verifique o formato do JSON enviado na requisição e tente novamente.
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+          
+    delete:
+      summary: Remove uma edição de disciplina
+      description: Realiza a exclusão lógica de uma edição de disciplina
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico da edição
+        required: true
+        type: integer
+          
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+  
+  /editions/{id}/tests:
+    get:
+      summary: Retorna os dados das avaliações associadas a uma edição de disciplina
+      description: Retorna os dados das avaliações associadas a uma edição de disciplina
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico da edição
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/get-edition-evaluations"
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+  
+  /subscribers:
+    get:
+      summary: Retorna uma lista contendo todos os subscribers cadastrados
+      description: Retorna uma lista contendo todos os subscribers cadastrados
+      parameters: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/get-subscribers-response'
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+  
+  /subscribers/{id}:
+    get:
+      summary: Retorna as informações de um subscriber com base no seu id
+      description: Retorna as informações de um subscriber com base no seu id
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico da edição
+        required: true
+        type: integer
+      - name: active
+        in: query
+        type: boolean
+        description: Se o subscriber está ativo ou não
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/get-subscribers-id-response'
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+          
+    delete:
+      summary: Remove um subscriber
+      description: Realiza a exclusão lógica de um subscriber
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico do subscriber
+        required: true
+        type: integer
+          
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+  
+  /subscribers/{id}/results:
+    get:
+      summary: Retorna os resultados de avaliações realizadas por um subscriber
+      description: Retorna os resultados de avaliações realizadas por um subscriber
+      parameters:
+      - name: id
+        in: path
+        description: Identificador numérico do subscriber
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/get-subscribers-id-results-response'
+        "401":
+          description: O cliente precisa estar autenticado para poder consumir este recurso.
+        "403":
+          description: O cliente não tem permissão para acessar este recurso.
+          
+definitions:
+
+  patch-subscriber-id-payload:
+    type: object
+    example: {
+      studentIds: [
+        '123', '456'  
+      ]
+    }
+
+  get-editions-response:
+    type: array
+    items:
+      $ref: "#/definitions/Edition"
+      
+  
+  get-edition-evaluations:
+    type: array
+    items:
+      type: integer
+    example: [
+      {
+        id: 'cer23331235',
+        date: "2021-05-26",
+        description: 'Prova 1 de mateḿatica discreta'
+      },
+      {
+        id: 'dwad231312',
+        date: "2021-05-28",
+        description: 'Trabalho 1 de mateḿatica discreta'
+      },
+    ]
+  
+  post-editions-payload:
+    type: object
+    example: {
+      year: 2021,
+      semester: '02',
+      studentIds: [
+        '1234', '5678', '91011'  
+      ]
+    }
+    
+  post-editions-response:
+    type: object
+    example: {
+      id: '1',
+      year: '2021',
+      semester: '02',
+      subscribers: [
+        {
+          id: '1',
+          studentId: '1234',
+          subscriptionDate: '2016-01-17T:08:44:29+0100'
+        },
+        {
+          id: '2',
+          studentId: '5678',
+          subscriptionDate: '2016-01-17T:08:44:29+0100'
+        },
+        {
+          id: '3',
+          studentId: '91011',
+          subscriptionDate: '2016-01-17T:08:44:29+0100'
+        } 
+      ]
+    }
+    
+  get-subscribers-response:
+    type: object
+    example: [
+      {
+        id: '123456789',
+        studentId: '1234',
+        subscriptionDate: '2016-01-17T:08:44:29+0100'
+      },
+      {
+        id: '123456789',
+        studentId: '5678',
+        subscriptionDate: '2016-01-17T:08:44:29+0100'
+      },
+      {
+        id: '4567890987',
+        studentId: '1234',
+        subscriptionDate: '2016-01-17T:08:44:29+0100'
+      }
+    ]
+    
+  get-subscribers-id-response:
+    type: object
+    example:
+      {
+        id: '123456789',
+        studentId: '1234',
+        subscriptionDate: '2016-01-17T:08:44:29+0100'
+      }
+    
+  get-subscribers-id-results-response:
+    type: object
+    example:
+      {
+        id: '098765',
+        studentId: '1ecf223adw34',
+        results: [
+          {
+            id: '12345',
+            date: "2021-05-26",
+            description: 'Prova 1 de mateḿatica discreta',
+            result: 9.3
+          },
+          {
+            id: '5123',
+            date: "2021-05-28",
+            description: 'Trabalho 1 de mateḿatica discreta',
+            result: 10.0
+          },
+        ],
+      }
+    
+  Edition:
+    type: "object"
+    required:
+    - "year"
+    - "semester"
+    properties:
+      id:
+        type: "string"
+        format: "uri"
+        example: "fS3GL9qq3u5XxSBQh9ZF4Q=="
+      year:
+        type: "number"
+        format: "int32"
+        example: "2021"
+      semester:
+        type: "number"
+        format: "int32"
+        example: "02"
+      subscribers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Subscriber"
+  
+  Subscriber:
+    type: "object"
+    required:
+    - "studentId"
+    - "subscriptionDate"
+    properties:
+      id:
+        type: "string"
+        format: "uri"
+        example: "VqjkRCu5qGARwEktjW0+9A=="
+      studentId:
+        type: "string"
+        format: "byte"
+        example: "yL4rM6tTYKs0duvoiTUHWQ=="
+      subscriptionDate:
+        type: "string"
+        format: "date-time"
+        example: "2021-09-21T17:32:28Z"
+    
+
+securityDefinitions:
+  accessCode:
+    type: oauth2
+    authorizationUrl: http://example.com/oauth/auth
+    tokenUrl: http://example.com/oauth/token
+    flow: accessCode
+    scopes:
+      write: allows modifying resources
+      read: allows reading resources
