@@ -1,12 +1,14 @@
 import express from "express";
-import { AppRouter } from './controller/router'
-import { EditionsRouter } from './controller/Editions'
-import { SubscribersRouter } from './controller/Subscribers'
+import {
+  EditionsRouter,
+  SubscribersRouter,
+  PingRouter,
+  DocsRouter,
+} from "./routers/index";
 
 export class App {
   private static server: express.Application;
   private static appInstance: App;
-  private static port = 3000;
 
   private constructor() {
     App.server = express();
@@ -28,17 +30,18 @@ export class App {
   }
 
   private registerControllers() {
-    App.server.use('/', AppRouter);
-    App.server.use('/editions', EditionsRouter);
-    App.server.use('/subscribers', SubscribersRouter);
+    App.server.use("/editions", EditionsRouter);
+    App.server.use("/subscribers", SubscribersRouter);
+    App.server.use("/docs", DocsRouter);
+    App.server.use("/ping", PingRouter);
   }
 
   private listen() {
-    const port = App.port;
+    const port = 3000;
     App.server.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });
   }
 }
 
-const instance = App.getInstance();
+App.getInstance();
