@@ -1,3 +1,4 @@
+---
 swagger: "2.0"
 info:
   description: Esta API tem como objetivo fornecer meios para criar, acessar e modificar registros referentes às edições de uma disciplina.
@@ -267,17 +268,20 @@ definitions:
         {
           id: '1',
           studentId: '1234',
-          subscriptionDate: '2016-01-17T:08:44:29+0100'
+          subscriptionDate: '2016-01-17T:08:44:29+0100',
+          active: true
         },
         {
           id: '2',
           studentId: '5678',
-          subscriptionDate: '2016-01-17T:08:44:29+0100'
+          subscriptionDate: '2016-01-17T:08:44:29+0100',
+          active: true
         },
         {
           id: '3',
           studentId: '91011',
-          subscriptionDate: '2016-01-17T:08:44:29+0100'
+          subscriptionDate: '2016-01-17T:08:44:29+0100',
+          active: true
         } 
       ]
     }
@@ -288,17 +292,20 @@ definitions:
       {
         id: '123456789',
         studentId: '1234',
-        subscriptionDate: '2016-01-17T:08:44:29+0100'
+        subscriptionDate: '2016-01-17T:08:44:29+0100',
+        active: true
       },
       {
         id: '123456789',
         studentId: '5678',
-        subscriptionDate: '2016-01-17T:08:44:29+0100'
+        subscriptionDate: '2016-01-17T:08:44:29+0100',
+        active: true
       },
       {
         id: '4567890987',
         studentId: '1234',
-        subscriptionDate: '2016-01-17T:08:44:29+0100'
+        subscriptionDate: '2016-01-17T:08:44:29+0100',
+        active: true
       }
     ]
     
@@ -308,7 +315,8 @@ definitions:
       {
         id: '123456789',
         studentId: '1234',
-        subscriptionDate: '2016-01-17T:08:44:29+0100'
+        subscriptionDate: '2016-01-17T:08:44:29+0100',
+        active: true
       }
     
   get-subscribers-id-results-response:
@@ -374,6 +382,9 @@ definitions:
         type: "string"
         format: "date-time"
         example: "2021-09-21T17:32:28Z"
+      active:
+        type: "boolean"
+        example: false
     
 
 securityDefinitions:
