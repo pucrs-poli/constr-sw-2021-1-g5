@@ -18,6 +18,16 @@ router.get("/:id", async (request: Request, response: Response) => {
     }
 });
 
+router.delete("/:id", async (request: Request, response: Response) => {
+    const subscriberId = request.params['id'];
+    try {
+        response.send(`Removing subscriber ${subscriberId}`);
+    } catch (error) {
+        console.log(`ERROR at GET SUBSCRIBER\n${error}`);
+        response.status(400);
+    }
+});
+
 router.get("/:id/results", async (request: Request, response: Response) => {
     var id;
     try {
