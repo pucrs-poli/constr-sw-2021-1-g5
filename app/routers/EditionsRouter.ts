@@ -48,12 +48,21 @@ router.patch("/:id", async (request: Request, response: Response) => {
     }
 });
 
-router.get("/:id/evaluations", async (request: Request, response: Response) => {
+router.delete('/:id/', async (request: Request, response: Response) => {
+    const editionId = request.params['id'];
+    try {
+        response.send(`Removing edition ${editionId}`);
+    } catch (error) {
+        
+    }
+});
+
+router.get("/:id/tests", async (request: Request, response: Response) => {
     var id;
     try {
         id = request.params['id'];
         console.log(`Received edition id: ${id}`);
-        response.send('Edition evaluations');
+        response.send('Edition tests');
     } catch (error) {
         console.log(`ERROR at GET EDITION EVALUATION\n${error}`);
         response.status(400);

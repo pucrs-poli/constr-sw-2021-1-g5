@@ -2,12 +2,6 @@ import { Router, Request, Response } from "express";
 
 const router = Router();
 
-const editionsPath = '/editions';
-const evaluationsPath = '/evaluations';
-const subscribersPath = '/subscribers';
-const resultsPath = '/results';
-const idInput = ':id';
-
 router.get("/", async (request: Request, response: Response) => {
     response.send('All subscribers');
 });
@@ -20,6 +14,16 @@ router.get("/:id", async (request: Request, response: Response) => {
         id = request.params['id'];
         console.log(`Received subscriber id: ${id}`);
         response.send(`Subscribers of ${id}: []`);
+    } catch (error) {
+        console.log(`ERROR at GET SUBSCRIBER\n${error}`);
+        response.status(400);
+    }
+});
+
+router.delete("/:id", async (request: Request, response: Response) => {
+    const subscriberId = request.params['id'];
+    try {
+        response.send(`Removing subscriber ${subscriberId}`);
     } catch (error) {
         console.log(`ERROR at GET SUBSCRIBER\n${error}`);
         response.status(400);
