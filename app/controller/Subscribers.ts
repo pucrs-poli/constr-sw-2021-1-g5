@@ -11,7 +11,9 @@ const idInput = ':id';
 router.get("/", async (request: Request, response: Response) => {
     response.send('All subscribers');
 });
-
+/**
+ * Teste
+ */
 router.get("/:id", async (request: Request, response: Response) => {
     var id;
     try {

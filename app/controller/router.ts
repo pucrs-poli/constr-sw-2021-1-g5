@@ -9,8 +9,11 @@ const subscribersPath = '/subscribers';
 const resultsPath = '/results';
 const idInput = ':id';
 
+
 router.get("/", async (request: Request, response: Response) => {
     response.send('Root application');
 });
+
+
 
 export const AppRouter: Router = router;
