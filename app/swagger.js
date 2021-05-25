@@ -24,7 +24,7 @@ const doc = {
   };
 
 const outputFile = 'swagger_output.json'
-const endpointsFiles = ['./routers/SubscribersRouter.ts']
+const endpointsFiles = ['./controllers/editions.controller.ts']
 //,'./controller/Subscribers'
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
     require('./src/index')           // Your project's root file
