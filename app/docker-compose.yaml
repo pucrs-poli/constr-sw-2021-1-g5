@@ -1,17 +1,13 @@
-version: "1"
+version: "3.1"
+
 services:
-  app:
-    container_name: app
+  db:
+    container_name: mongoDB
+    image: mongo:latest
     restart: always
-    build: .
-    ports:
-      - "80:9091"
-    links:
-      - mongo
-  mongo:
-    container_name: mongo
-    image: mongo
     volumes:
-      - ./data:/data/db
+      - ./db_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=${DB_NAME}
     ports:
-      - "27020:27020"
+      - 27018:27017
