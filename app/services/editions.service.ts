@@ -2,8 +2,8 @@ import { IEdition } from "../interfaces/edition.interface";
 import { Edition } from "../schemas/edition.schema";
 
 export class EditionService {
-  findAll(): Promise<IEdition[]> {
-    return Edition.find({}).exec();
+  findAll(active?: boolean): Promise<IEdition[]> {
+    return Edition.find(active ? {active} : {}).exec();
   }
 
   create(edition: IEdition): Promise<IEdition> {
