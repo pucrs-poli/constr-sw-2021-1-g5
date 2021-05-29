@@ -9,7 +9,9 @@ export class EditionsController {
   }
 
   private setRoutes() {
-    this.router.route("/").get(this.getAllEditions).post(this.createEdition);
+    this.router.route("/")
+      .get(this.getAllEditions)
+      .post(this.createEdition);
 
     this.router
       .route("/:id")
@@ -60,7 +62,8 @@ export class EditionsController {
 
   private getAllEditions = async (request: Request, response: Response) => {
     try {
-      const editions = await this.editionService.findAll();
+      const activeFilter = request.query.active as unknown as boolean;
+      const editions = await this.editionService.findAll(activeFilter);
       response.send(editions);
     } catch (error) {
       response.status(500).send(error.message);
@@ -70,7 +73,7 @@ export class EditionsController {
   private createEdition = async (request: Request, response: Response) => {
     try {
       const edition = await this.editionService.create(request.body);
-      response.send(edition);
+      response.status(201).send(edition);
     } catch (error) {
       response.status(500).send(error.message);
     }
