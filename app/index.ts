@@ -6,11 +6,11 @@ const swaggerFile = require('./swagger_output.json')
 
 import {
   EditionsController,
-  SubscribersRouter,
-  PingRouter,
-  DocsRouter,
+  SubscribersController,
+  PingRouter
 } from "./controllers/index";
 import { EditionService } from "./services/editions.service";
+import { SubscriberService } from "./services/subscribers.service";
 
 
 export class App {
@@ -41,9 +41,10 @@ export class App {
   private registerControllers() {
 
     const editionsController = new EditionsController(new EditionService());
+    const subscriptionsController = new SubscribersController(new SubscriberService());
 
     App.server.use("/editions", editionsController.router);
-    App.server.use("/subscribers", SubscribersRouter);
+    App.server.use("/subscribers", subscriptionsController.router);
     App.server.use("/ping", PingRouter);
     App.server.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
   }
