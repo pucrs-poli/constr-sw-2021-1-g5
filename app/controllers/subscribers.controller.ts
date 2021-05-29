@@ -4,7 +4,6 @@ import { SubscriberService } from "../services/subscribers.service";
 export class SubscribersController {
     router = Router();
 
-    // constructor() {
     constructor(private subscriberService: SubscriberService) {
         this.setRoutes();
     }
@@ -22,19 +21,17 @@ export class SubscribersController {
             .get(this.getSubscriberResults);
     }
 
-    private postSubscriber = async (request: Request, response: Response) => {
-        try {
-            const subscriber = await this.subscriberService.create(request.body);
-            response.status(201).send(subscriber);
-        } catch (error) {
-            response.status(500).send(error.message);
-        }
-    }
+    /// Route '/:id'
 
     private getSubscriber = async (request: Request, response: Response) => {
         try {
+            console.log(request.params["id"]);
             const subscriber = await this.subscriberService.findById(request.params["id"]);
-            response.send(subscriber);
+            if (subscriber) {
+                response.send(subscriber);
+            } else {
+                response.status(404).send('No such subscription exists');
+            }
         } catch (error) {
             response.status(500).send(error.message);
         }
@@ -42,28 +39,40 @@ export class SubscribersController {
 
     private deleteSubscriber = async (request: Request, response: Response) => {
         try {
-            await this.subscriberService.delete(request.params.id);
-            response.status(204).send();
+            const subscriber = await this.subscriberService.delete(request.params.id);
+            response.status(200).send(subscriber);
         } catch (error) {
             response.status(500).send(error.message);
         }
     }
+
+    /// Route '/:id/results'
 
     private getSubscriberResults = async (request: Request, response: Response) => {
+        response.status(204).send('Not today');
+    }
+
+    /// Route '/'
+    private getAllSubscribers = async (request: Request, response: Response) => {
         try {
-            const result = await
-                this.subscriberService.findById(request.params["id"])
-            /// TODO:  pegar resultado do subscriber
-            response.send(result);
+            const activeFilter = request.query.active as unknown as boolean;
+            const subscribers = await this.subscriberService.findAll(activeFilter);
+            response.send(subscribers);
         } catch (error) {
             response.status(500).send(error.message);
         }
     }
 
-    private getAllSubscribers = async (request: Request, response: Response) => {
+    private postSubscriber = async (request: Request, response: Response) => {
         try {
-            const subscriber = await this.subscriberService.create(request.body);
-            response.status(201).send(subscriber);
+            const id = request.body['studentId'];
+            const hasAny = await this.subscriberService.findById(id) != null;
+            if(hasAny) {
+                response.status(204).send('Subscriber with id already exists');
+            } else {
+                const subscriber = await this.subscriberService.create(request.body);
+                response.status(201).send(subscriber);
+            }
         } catch (error) {
             response.status(500).send(error.message);
         }
