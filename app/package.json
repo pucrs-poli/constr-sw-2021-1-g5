@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
+    "express-routes-versioning": "^1.0.1",
     "keycloak-admin": "^1.14.16",
     "mongoose": "^5.12.11",
     "swagger-jsdoc": "^7.0.0-rc.6",
