@@ -28,3 +28,10 @@ DB_NAME=database
 ## Gerando documentação
 
 Na pasta **app**, rode o comando ```npm run start-gendoc``` para criar outputFile para swagger.
+
+## Modelos de dados
+
+Esta API contém os dados das entidades ```Edition``` e ```Subscriber```.
+Suas propriedades e relações podem ser observadas na imagem abaixo:
+
+![API Models](app/docs/models.png)
