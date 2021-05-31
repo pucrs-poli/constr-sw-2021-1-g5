@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { EditionService } from "../services/editions.service";
+var routesVersioning = require("express-routes-versioning")();
 
 export class EditionsController {
   router = Router();
@@ -9,20 +10,23 @@ export class EditionsController {
   }
 
   private setRoutes() {
-    this.router.route("/")
-      .get(this.getAllEditions)
-      .post(this.createEdition);
+    this.router
+      .route("/")
+      .get(routesVersioning({ "1.0.0": this.getAllEditionsV1 }))
+      .post(routesVersioning({ "1.0.0": this.createEditionV1 }));
 
     this.router
       .route("/:id")
-      .get(this.getEdition)
-      .patch(this.updateEdition)
-      .delete(this.deleteEdition);
+      .get(routesVersioning({ "1.0.0": this.getEditionV1 }))
+      .patch(routesVersioning({ "1.0.0": this.updateEditionV1 }))
+      .delete(routesVersioning({ "1.0.0": this.deleteEditionV1 }));
 
-    this.router.route("/:id/tests").get(this.getEditionTests);
+    this.router
+      .route("/:id/tests")
+      .get(routesVersioning({ "1.0.0": this.getEditionTestsV1 }));
   }
 
-  private getEdition = async (request: Request, response: Response) => {
+  private getEditionV1 = async (request: Request, response: Response) => {
     try {
       const edition = await this.editionService.findById(request.params["id"]);
       response.send(edition);
@@ -31,7 +35,7 @@ export class EditionsController {
     }
   };
 
-  private updateEdition = async (request: Request, response: Response) => {
+  private updateEditionV1 = async (request: Request, response: Response) => {
     try {
       const updateEditionResponse = await this.editionService.update(
         request.params.id,
@@ -43,7 +47,7 @@ export class EditionsController {
     }
   };
 
-  private deleteEdition = async (request: Request, response: Response) => {
+  private deleteEditionV1 = async (request: Request, response: Response) => {
     try {
       await this.editionService.delete(request.params.id);
       response.status(204).send();
@@ -58,9 +62,12 @@ export class EditionsController {
    * @param request objeto contendo dados sobre a requisição
    * @param response objeto contendo ferramentas para envio de resposta da requisição
    */
-  private getEditionTests = async (request: Request, response: Response) => {};
+  private getEditionTestsV1 = async (
+    request: Request,
+    response: Response
+  ) => {};
 
-  private getAllEditions = async (request: Request, response: Response) => {
+  private getAllEditionsV1 = async (request: Request, response: Response) => {
     try {
       const activeFilter = request.query.active as unknown as boolean;
       const editions = await this.editionService.findAll(activeFilter);
@@ -70,7 +77,7 @@ export class EditionsController {
     }
   };
 
-  private createEdition = async (request: Request, response: Response) => {
+  private createEditionV1 = async (request: Request, response: Response) => {
     try {
       const edition = await this.editionService.create(request.body);
       response.status(201).send(edition);
