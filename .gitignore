@@ -105,3 +105,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Whatever the fuck this is
+diagnostic.data/
+journal/
+*.wt
+# *.lock
+*.turtle
