@@ -61,7 +61,8 @@ export class SubscribersController {
     private getSubscriberResultsV1 = async (request: Request, response: Response) => {
         try {
             // const results = await this.subscriberService
-            response.status(204).send("In progress");
+            const results = await this.subscriberService.findSubscriberResults(request.params.id);
+            response.status(200).send(results);
         } catch (error) {
             response.status(500).send(error.message);
         }
