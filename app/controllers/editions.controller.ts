@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { EditionService } from "../services/editions.service";
-var routesVersioning = require("express-routes-versioning")();
+import * as https from 'https';
+const routesVersioning = require("express-routes-versioning")();
 
 export class EditionsController {
   router = Router();
@@ -56,16 +57,14 @@ export class EditionsController {
     }
   };
 
-  /**
-   * @TODO Precisamos verificar o formato de retorno dos dados desta API com o grupo correspondente
-   * @description Busca as avaliações cadastradas para uma determinada disciplina
-   * @param request objeto contendo dados sobre a requisição
-   * @param response objeto contendo ferramentas para envio de resposta da requisição
-   */
-  private getEditionTestsV1 = async (
-    request: Request,
-    response: Response
-  ) => {};
+  private getEditionTestsV1 = async (request: Request, response: Response) => {
+    try {
+      const tests = await this.editionService.findEditionTests(request.params["id"]);
+      response.send(tests);
+    } catch (error) {
+      response.status(500).send(error.message);
+    }
+  };
 
   private getAllEditionsV1 = async (request: Request, response: Response) => {
     try {
