@@ -18,7 +18,7 @@ export class SubscribersController {
             .delete(this.deleteSubscriber);
 
         this.router.route('/:id/results')
-            .get(this.getSubscriberResults);
+            .get(this.getSubscriberResultsV1);
 
         this.router.route('/student/:id')
             .get(this.getByStudentId);
@@ -58,9 +58,13 @@ export class SubscribersController {
     *   =====================
     */
 
-    private getSubscriberResults = async (request: Request, response: Response) => {
-        /// TODO:
-        response.status(204).send('Not today');
+    private getSubscriberResultsV1 = async (request: Request, response: Response) => {
+        try {
+            // const results = await this.subscriberService
+            response.status(204).send("In progress");
+        } catch (error) {
+            response.status(500).send(error.message);
+        }
     }
 
     /*  

@@ -41,4 +41,17 @@ export class SubscriberService {
         }
         return updatedSubscriber;
     }
+
+    findSubscriberResults(id: String) {
+        return new Promise((resolve, reject) => {
+            resolve([
+                {
+
+                },
+                {
+                    
+                }
+            ]);
+        });
+    }
 }
