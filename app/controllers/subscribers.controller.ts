@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { SubscriberService } from "../services/subscribers.service";
+const routesVersioning = require("express-routes-versioning")();
 
 export class SubscribersController {
     router = Router();
@@ -7,21 +8,25 @@ export class SubscribersController {
     constructor(private subscriberService: SubscriberService) {
         this.setRoutes();
     }
-
+    
     private setRoutes() {
-        this.router.route('/')
-            .get(this.getAllSubscribers)
-            .post(this.postSubscriber);
+        this.router
+            .route('/')
+            .get(routesVersioning({ "1.0.0": this.getAllSubscribers}))
+            .post(routesVersioning({ "1.0.0": this.postSubscriber}));
 
-        this.router.route('/:id')
-            .get(this.getSubscriber)
-            .delete(this.deleteSubscriber);
+        this.router
+            .route('/:id')
+            .get(routesVersioning({ "1.0.0": this.getSubscriber}))
+            .delete(routesVersioning({ "1.0.0": this.deleteSubscriber}));
 
-        this.router.route('/:id/results')
-            .get(this.getSubscriberResultsV1);
+        this.router
+            .route('/:id/results')
+            .get(routesVersioning({ "1.0.0": this.getSubscriberResultsV1}));
 
-        this.router.route('/student/:id')
-            .get(this.getByStudentId);
+        this.router
+            .route('/student/:id')
+            .get(routesVersioning({ "1.0.0": this.getByStudentId}));
     }
 
     /*  
