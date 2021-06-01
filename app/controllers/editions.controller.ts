@@ -1,6 +1,5 @@
 import { Router, Request, Response } from "express";
 import { EditionService } from "../services/editions.service";
-import * as https from 'https';
 const routesVersioning = require("express-routes-versioning")();
 
 export class EditionsController {
