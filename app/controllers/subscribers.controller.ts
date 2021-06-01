@@ -19,13 +19,19 @@ export class SubscribersController {
 
         this.router.route('/:id/results')
             .get(this.getSubscriberResults);
+
+        this.router.route('/student/:id')
+            .get(this.getByStudentId);
     }
 
-    /// Route '/:id'
+    /*  
+    *   =====================
+    *       Route '/:id'
+    *   =====================
+    */
 
     private getSubscriber = async (request: Request, response: Response) => {
         try {
-            console.log(request.params["id"]);
             const subscriber = await this.subscriberService.findById(request.params["id"]);
             if (subscriber) {
                 response.send(subscriber);
@@ -46,13 +52,23 @@ export class SubscribersController {
         }
     }
 
-    /// Route '/:id/results'
+    /*  
+    *   =====================
+    *    Route '/:id/results'
+    *   =====================
+    */
 
     private getSubscriberResults = async (request: Request, response: Response) => {
+        /// TODO:
         response.status(204).send('Not today');
     }
 
-    /// Route '/'
+    /*  
+    *   =====================
+    *       Route '/'
+    *   =====================
+    */
+   
     private getAllSubscribers = async (request: Request, response: Response) => {
         try {
             const activeFilter = request.query.active as unknown as boolean;
@@ -65,13 +81,26 @@ export class SubscribersController {
 
     private postSubscriber = async (request: Request, response: Response) => {
         try {
-            const id = request.body['studentId'];
-            const hasAny = await this.subscriberService.findById(id) != null;
-            if(hasAny) {
-                response.status(204).send('Subscriber with id already exists');
+            const subscriber = await this.subscriberService.create(request.body);
+            response.status(201).send(subscriber);
+        } catch (error) {
+            response.status(500).send(error.message);
+        }
+    }
+
+    /*  
+    *   =====================
+    *   Route '/student/results'
+    *   =====================
+    */
+
+    private getByStudentId = async (request: Request, response: Response) => {
+        try {
+            const subscriber = await this.subscriberService.findByStudentId(request.params["id"]);
+            if (subscriber) {
+                response.send(subscriber);
             } else {
-                const subscriber = await this.subscriberService.create(request.body);
-                response.status(201).send(subscriber);
+                response.status(404).send('No such subscription exists');
             }
         } catch (error) {
             response.status(500).send(error.message);

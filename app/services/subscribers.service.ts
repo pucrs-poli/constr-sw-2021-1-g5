@@ -17,7 +17,11 @@ export class SubscriberService {
     }
 
     findById(id: string): Promise<any> {
-        return Subscriber.findOne({ studentId: id }).exec();
+        return Subscriber.findById(id).exec();
+    }
+
+    findByStudentId(id: string): Promise<any> {
+        return Subscriber.find({ studentId: id }).exec();
     }
 
     async update(id: string, subscriber: ISubscriber) {
@@ -28,10 +32,10 @@ export class SubscriberService {
         }
         return updatedSubscriber;
     }
-// , {active:false}
+
     async delete(id: string) {
         const updatedSubscriber = await
-            Subscriber.findOneAndDelete({'studentId':id}).exec();
+            Subscriber.findByIdAndDelete(id).exec();
         if (!updatedSubscriber) {
             throw new Error(`Subscriber with id '${id}' not found`);
         }
