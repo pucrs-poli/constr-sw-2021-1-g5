@@ -42,6 +42,14 @@ export class App {
   }
 
   private authorizeEndpoints = (request: Request, response: Response, next: () => any) => {
+    
+    const whitelisted = ['/doc', '/doc/', '/ping', '/ping/'];
+    
+    if (whitelisted.includes(request.path)) {
+      next();
+      return;
+    }
+    
     if (request.headers.authorization) {
       // const options = {
       //   host: "https://[keycloakHost]",
@@ -84,7 +92,7 @@ export class App {
       },
     });
     mongoose.connect(
-      `mongodb://${process.env.DB_DEV_HOST}/${process.env.DB_NAME}`,
+      `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

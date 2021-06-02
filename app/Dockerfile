@@ -4,6 +4,8 @@ FROM node:14
 ENV PORT=9091
 ENV BASE_URL=http://3.15.140.59:8080/auth
 ENV REALM_NAME=master
+ENV DB_HOST=localhost:27018
+ENV DB_NAME=database
 
 #CREATING WORK DIR
 RUN mkdir -p /usr/src/app
