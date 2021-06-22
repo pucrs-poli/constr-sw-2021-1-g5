@@ -25,6 +25,14 @@ DB_NAME=database
     * Configura se a instância está rodando com o comando ```docker-compose ps```   
 5. Inicialize o servidor com o comando ```npm start```
 
+## URL em prod
+Para acessar a API em produção, utilize o endereço: ```ec2-3-16-76-105.us-east-2.compute.amazonaws.com```. Para realizar requisições, o usuário deve se autenticar através de Bearer Token.
+
+Para testar os endpoints, pode-se utilizar o Postman ou [ReqBin](https://reqbin.com/) (ferramenta online)
+
+## Swagger Hub
+A documentação dos endpoints disponíveis pode ser acessada por [aqui](https://app.swaggerhub.com/apis/munaretto/construcao_p2/1.0.0)
+
 ## Gerando documentação
 
 Na pasta **app**, rode o comando ```npm run start-gendoc``` para criar outputFile para swagger.
