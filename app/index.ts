@@ -9,9 +9,9 @@ import {
 } from "./controllers/index";
 import { EditionService } from "./services/editions.service";
 import { SubscriberService } from "./services/subscribers.service";
-import * as https from "https";
 
 import { NO_ACCESS_TOKEN_GIVEN } from "./constants/constants";
+import cors from "cors";
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
@@ -39,6 +39,7 @@ export class App {
     App.server.use(express.json());
     App.server.use(express.urlencoded({ extended: false }));
     App.server.use(this.authorizeEndpoints);
+    App.server.use(cors)
   }
 
   private authorizeEndpoints = (request: Request, response: Response, next: () => any) => {
