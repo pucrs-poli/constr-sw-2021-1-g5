@@ -9,9 +9,9 @@ import {
 } from "./controllers/index";
 import { EditionService } from "./services/editions.service";
 import { SubscriberService } from "./services/subscribers.service";
-import * as https from "https";
 
 import { NO_ACCESS_TOKEN_GIVEN } from "./constants/constants";
+import cors from "cors";
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
@@ -39,6 +39,22 @@ export class App {
     App.server.use(express.json());
     App.server.use(express.urlencoded({ extended: false }));
     App.server.use(this.authorizeEndpoints);
+    App.server.use(this.mountCORSHeaders);
+    
+    const corsOptions: cors.CorsOptions = {
+      origin: '*',
+      methods: 'GET,HEAD,POST,PATCH,PUT,DELETE',
+    };
+    
+    App.server.use(cors(corsOptions));
+  }
+
+  private mountCORSHeaders = (request: Request, response: Response, next: () => any) => {
+    response.setHeader('Access-Control-Allow-Origin', '*')
+	  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+	  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+	  response.setHeader('Access-Control-Allow-Credentials', 'true')
+	  next()
   }
 
   private authorizeEndpoints = (request: Request, response: Response, next: () => any) => {
@@ -80,6 +96,7 @@ export class App {
   private listen() {
     App.server.listen(process.env.PORT, () => {
       console.log(`Server listening on port ${process.env.PORT}`);
+      console.log("CORS allowed from all origins v5");
     });
   }
 

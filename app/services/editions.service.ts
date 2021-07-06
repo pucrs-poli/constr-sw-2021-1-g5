@@ -1,27 +1,45 @@
+import { Http2ServerRequest } from "http2";
 import { IEdition } from "../interfaces/edition.interface";
 import { Edition } from "../schemas/edition.schema";
+import http from 'http';
+import { response } from "express";
 
 export class EditionService {
   findAll(active?: boolean): Promise<IEdition[]> {
     return Edition.find(active ? { active } : {}).exec();
   }
 
-  /**
-   * @TODO Quando o grupo 8 subir a API para a AWS, devemos remover o mock
-   * e descomentar a chamada HTTPS
-   * @param id
-   */
   findEditionTests(id: string) {
     // const options = {
-    //   host: "endpoint-grupo",
-    //   port: 8080,
-    //   path: `/tests`,
-    //   method: "GET",
-    //   headers: { Authorization: request.headers.authorization },
-    // };
-    // https.request(options, (res) => {
-    //   console.log("RESPONSE DA CHAMADA A API EXTERNA: ", res);
+    //   hostname: 'ec2-3-138-183-70.us-east-2.compute.amazonaws.com',
+    //   path: `/edition/${id}/tests`,
+    //   method: 'GET',
+    //   timeout: 10000
+    // }
+    // let resultado: any;
+    
+    // http.request(options, res => {
+    //   res.setEncoding('utf8');
+      
+    //   res.on('data', d => {
+    //     resultado = d;
+    //     // process.stdout.write(d);
+    //   })
+
+    //   res.on('end', () => {
+    //     console.log("FINISHED: ", resultado);
+    //     return resultado;
+    //   })
+
+    //   res.on('error', error => {
+    //     console.error("ERROR: ", error)
+    //   })
+    // }).end();
+    
+    // return new Promise((resolve, reject) => {
+    //   resolve(resultado);
     // });
+
     return new Promise((resolve, reject) => {
       resolve([
         {
@@ -42,6 +60,7 @@ export class EditionService {
         },
       ]);
     });
+    
   }
 
   create(edition: IEdition): Promise<IEdition> {
